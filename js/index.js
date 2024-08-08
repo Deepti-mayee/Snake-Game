@@ -24,12 +24,21 @@ function main(ctime){
 }
 
 function isCollide(sarr) {
+    //if you bump into yourself
+    for (let i = 1; i < snakeArr.length; i++){
+        if (snakeArr[i].x === snakeArr[0].x && snakeArr[i].y === snakeArr[0].y) {
+            return true;
+        }
+    }
+    if (snakeArr[0].x >=18 || snakeArr[0].x<=0 && snakeArr[0].y >=18 || snakeArr[0].y <=0) {
+        return true  
+    }
     
     return false;
 }
 
 function gameEngine(){
-    //Part-1: Updating the snake array and food
+    //Part-1: Updating the snake array and food   
     if (isCollide(snakeArr)) {
         gameOverSound.play();
         musicSound.pause();
