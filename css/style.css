@@ -23,3 +23,10 @@
     grid-template-columns: repeat(18, 1fr);
 }
 
+.head{
+    background-color: red;
+}
+
+.food{
+    background-color: purple;
+}
