@@ -9,6 +9,7 @@ let lastPaintTime = 0
 let sankeArr = [
     {x: 13, y: 15}
 ]
+food = {x: 13, y: 15}
 
 //Game Functions
 function main(ctime){
@@ -32,9 +33,16 @@ function gameEngine(){
         snakeElement = document.createElement('div');
         snakeElement.style.gridRowStart = e.y;
         snakeElement.style.gridColumnStart = e.x;
-        snakeElement.classList.add('food')
+        snakeElement.classList.add('head')
         board.appendChild(snakeElement);        
     });
+
+    //Display the food
+    foodElement = document.createElement('div');
+    foodElement.style.gridRowStart = food.y;
+    foodElement.style.gridColumnStart = food.x;
+    foodElement.classList.add('food')
+    board.appendChild(foodElement);  
 }
 
 
