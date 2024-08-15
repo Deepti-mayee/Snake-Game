@@ -23,14 +23,14 @@ function main(ctime){
     gameEngine();   
 }
 
-function isCollide(sarr) {
+function isCollide(snake) {
     //if you bump into yourself
     for (let i = 1; i < snakeArr.length; i++){
-        if (snakeArr[i].x === snakeArr[0].x && snakeArr[i].y === snakeArr[0].y) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
             return true;
         }
     }
-    if (snakeArr[0].x >=18 || snakeArr[0].x<=0 && snakeArr[0].y >=18 || snakeArr[0].y <=0) {
+    if (snake[0].x >=18 || snake[0].x<=0 || snake[0].y >=18 || snake[0].y <=0) {
         return true  
     }
     
@@ -52,6 +52,13 @@ function gameEngine(){
     //If you have eaten the food, increament the score and regenerate the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x){
         foodSound.play();
+        score += 1;
+        if (score > hiscoreval) {
+            hiscoreval = score;
+            localStorage.setItem("hiscore", JSON.stringify(hiscoreval));
+            hiscoreBox.innerHTML = "HiScore: " + hiscoreval;
+        }
+        scoreBox.innerHTML = "Score: " + score;
         snakeArr.unshift({x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y});
         let a = 2;
         let b = 16;
@@ -73,10 +80,10 @@ function gameEngine(){
         snakeElement = document.createElement('div');
         snakeElement.style.gridRowStart = e.y;
         snakeElement.style.gridColumnStart = e.x;
-        if (index > 0) {
-            snakeElement.classList.add('snake');
+        if (index === 0) {
+            snakeElement.classList.add('head');    
         }
-        snakeElement.classList.add('head');
+        snakeElement.classList.add('snake');
         board.appendChild(snakeElement);        
     });
 
@@ -88,7 +95,18 @@ function gameEngine(){
     board.appendChild(foodElement);  
 }
 
-//Main logic starts here
+//Main logic starts 
+musicSound.play();
+let hiscore = localStorage.getItem("hiscore");
+if(hiscore === null){
+    hiscoreval = 0;
+    localStorage.setItem("hiscore", JSON.stringify(hiscoreval));
+}
+else{
+    hiscoreval = JSON.parse(hiscore);
+    hiscoreBox.innerHTML = "High Score: " + hiscoreval;   
+}
+
 window.requestAnimationFrame(main);
 window.addEventListener('keydown',e=>{
     inputDir = {x: 0, y:1}// Start the game
